@@ -1,0 +1,20 @@
+<form class='places__sorting' action='#' method='get'>
+  <span class='places__sorting-caption'>Sort by</span>
+  <span (click)='handleSortClick()' class='places__sorting-type' tabindex='0'>
+    {{menuItemsMap[(activeSort$ | async) || 'popular']}}
+    <svg class='places__sorting-arrow' width='7' height='4'>
+      <use xlink:href='#icon-arrow-select'></use>
+    </svg>
+  </span>
+  <ul class='places__options places__options--custom' [class.places__options--opened]='isMenuOpened'>
+    <li
+      (click)='handleSortItemClick(item)'
+      *ngFor='let item of menuItems'
+      class='places__option'
+      [class.places__option--active]='(activeSort$ | async) === item'
+      tabindex='0'
+    >
+      {{menuItemsMap[item] | titlecase}}
+    </li>
+  </ul>
+</form>
