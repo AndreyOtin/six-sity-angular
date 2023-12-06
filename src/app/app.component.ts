@@ -1,6 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { offersReducerAction } from '../store/offers/offers.actions';
+import { userReducerAction } from '../store/user/user.actions';
+import { Store } from '@ngrx/store';
+import { CombinedReducers } from '../store';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +14,12 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+  constructor(private store: Store<CombinedReducers>) {
+  }
+
+  ngOnInit() {
+    this.store.dispatch(offersReducerAction.getOffers());
+    this.store.dispatch(userReducerAction.checkUser());
+  }
+}

@@ -66,5 +66,5 @@ export interface CommentUser {
 
 export interface NewComment {
   comment: string
-  rating: number
+  rating: string
 }

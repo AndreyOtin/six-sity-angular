@@ -25,7 +25,7 @@ const initialState: UserReducer = {
 export const userReducer = createReducer(
   initialState,
   on(userReducerAction.checkUserSuccess, (state, action) => {
-     return { ...state, user: action.payload, authStatus: UserStatus.Auth };
+    return { ...state, user: action.payload, authStatus: UserStatus.Auth };
   }),
   on(userReducerAction.checkUserFailure, (state) => {
     return { ...state, authStatus: UserStatus.NoAuth };
@@ -37,6 +37,24 @@ export const userReducer = createReducer(
     return { ...state, favorites: action.payload, isFavoritesLoading: false };
   }),
   on(userReducerAction.getFavoritesFailure, (state, action) => {
+    return { ...state, isFavoritesLoading: false, error: action.payload };
+  }),
+  on(userReducerAction.updateFavorites, (state) => {
+    return { ...state, isFavoritesLoading: true, error: null };
+  }),
+  on(userReducerAction.updateFavoritesSuccess, (state, action) => {
+    const index = state.favorites.findIndex(f => f.id === action.payload.id);
+    const favorites = state.favorites.slice();
+
+    if (index === -1) {
+      favorites.push(action.payload);
+    } else {
+      favorites.splice(index, 1);
+    }
+
+    return { ...state, favorites: favorites, isFavoritesLoading: false };
+  }),
+  on(userReducerAction.updateFavoritesFailure, (state, action) => {
     return { ...state, isFavoritesLoading: false, error: action.payload };
   }),
   on(userReducerAction.loginUser, (state) => {

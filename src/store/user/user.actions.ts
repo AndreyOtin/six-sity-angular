@@ -3,11 +3,11 @@ import { ReducerName } from '../../consts/enums';
 import { NewUser, Offer, User } from '../../types/api';
 
 const checkUser = createAction(`${ReducerName.User}/checkUser`);
-const checkUserSuccess = createAction(`${ReducerName.User}/checkUserSuccess`, props<{payload: User}>());
+const checkUserSuccess = createAction(`${ReducerName.User}/checkUserSuccess`, props<{ payload: User }>());
 const checkUserFailure = createAction(`${ReducerName.User}/checkUserFailure`, props<{ payload: string }>());
 
 const loginUser = createAction(`${ReducerName.User}/loginUser`, props<NewUser>());
-const loginUserSuccess = createAction(`${ReducerName.User}/loginUserSuccess`, props<{payload: User}>());
+const loginUserSuccess = createAction(`${ReducerName.User}/loginUserSuccess`, props<{ payload: User }>());
 const loginUserFailure = createAction(`${ReducerName.User}/loginUserFailure`, props<{ payload: string }>());
 
 const logoutUser = createAction(`${ReducerName.User}/logoutUser`);
@@ -17,6 +17,10 @@ const logoutUserFailure = createAction(`${ReducerName.User}/logoutUserFailure`, 
 const getFavorites = createAction(`${ReducerName.User}/getFavorites`);
 const getFavoritesSuccess = createAction(`${ReducerName.User}/getFavoritesSuccess`, props<{ payload: Offer[] }>());
 const getFavoritesFailure = createAction(`${ReducerName.User}/getFavoritesFailure`, props<{ payload: string }>());
+
+const updateFavorites = createAction(`${ReducerName.User}/updateFavorites`, props<{ id: string, status: number }>());
+const updateFavoritesSuccess = createAction(`${ReducerName.User}/updateFavoritesSuccess`, props<{ payload: Offer }>());
+const updateFavoritesFailure = createAction(`${ReducerName.User}/updateFavoritesFailure`, props<{ payload: string }>());
 
 export const userReducerAction = {
   checkUser,
@@ -30,5 +34,8 @@ export const userReducerAction = {
   checkUserFailure,
   getFavorites,
   getFavoritesSuccess,
-  getFavoritesFailure
+  getFavoritesFailure,
+  updateFavorites,
+  updateFavoritesSuccess,
+  updateFavoritesFailure
 };

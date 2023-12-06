@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { catchError, map, mergeAll, of } from 'rxjs';
 import { userReducerAction } from './user.actions';
 import { HttpErrorResponse } from '@angular/common/http';
+import { offersReducerAction } from '../offers/offers.actions';
 
 export const checkUserEffect = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
@@ -13,7 +14,7 @@ export const checkUserEffect = createEffect(
       map(() => {
         return apiService.getUser().pipe(
           map((user) => {
-            return [userReducerAction.checkUserSuccess({ payload: user }), userReducerAction.getFavorites()]
+            return [userReducerAction.checkUserSuccess({ payload: user }), userReducerAction.getFavorites()];
           }),
           mergeAll(),
           catchError((err: HttpErrorResponse) => of(userReducerAction.checkUserFailure({ payload: err.error.error }))),
@@ -27,7 +28,6 @@ export const checkUserEffect = createEffect(
 
 export const loginUserEffect = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
-
     return actions$.pipe(
       ofType(userReducerAction.loginUser),
       map((user) => {
@@ -44,7 +44,6 @@ export const loginUserEffect = createEffect(
 
 export const logoutUserEffect = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
-
     return actions$.pipe(
       ofType(userReducerAction.logoutUser),
       map(() => {
@@ -61,13 +60,29 @@ export const logoutUserEffect = createEffect(
 
 export const getFavoritesEffect = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
-
     return actions$.pipe(
       ofType(userReducerAction.getFavorites),
       map(() => {
         return apiService.getFavorites().pipe(
           map((offers) => userReducerAction.getFavoritesSuccess({ payload: offers })),
           catchError((err: HttpErrorResponse) => of(userReducerAction.getFavoritesFailure({ payload: err.error.error }))),
+        );
+      }),
+      mergeAll(),
+    );
+  },
+  { functional: true },
+);
+
+export const updateFavoritesEffect = createEffect(
+  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
+    return actions$.pipe(
+      ofType(userReducerAction.updateFavorites),
+      map(({ status, id }) => {
+        return apiService.updateFavorites(id, status).pipe(
+          map((offers) => [userReducerAction.updateFavoritesSuccess({ payload: offers }), offersReducerAction.getOffers()]),
+          mergeAll(),
+          catchError((err: HttpErrorResponse) => of(userReducerAction.updateFavoritesFailure({ payload: err.error.error }))),
         );
       }),
       mergeAll(),

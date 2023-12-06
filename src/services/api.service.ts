@@ -14,16 +14,20 @@ export class ApiService {
     return this.http.get<Offer[]>(ApiRoute.Offers);
   }
 
+  getOffer(id: string) {
+    return this.http.get<Offer>(`${ApiRoute.Offers}/${id}`);
+  }
+
   getFavorites() {
     return this.http.get<Offer[]>(ApiRoute.Favorite);
   }
 
   updateFavorites(hotelId: string, status: number) {
-    return this.http.get<Offer[]>(`${ApiRoute.Favorite}/${hotelId}/${status}`);
+    return this.http.post<Offer>(`${ApiRoute.Favorite}/${hotelId}/${status}`, {});
   }
 
   getComments(hotelId: string) {
-    return this.http.get<Offer[]>(`${ApiRoute.Comments}/${hotelId}`);
+    return this.http.get<Comment[]>(`${ApiRoute.Comments}/${hotelId}`);
   }
 
   postComment(hotelId: string, comment: NewComment) {

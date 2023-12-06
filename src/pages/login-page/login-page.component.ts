@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { CombinedReducers } from '../../store';
 import { userReducerAction } from '../../store/user/user.actions';
 import { NewUser } from '../../types/api';
+import { userReducerSelector } from '../../store/user/user.selectors';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserStatus } from '../../consts/enums';
 
 @Component({
   selector: 'app-login-page',
@@ -19,12 +22,27 @@ export class LoginPageComponent implements OnInit {
     email: FormControl<string | null>,
     password: FormControl<string | null>
   }>;
+  userStatus$ = this.store.select(userReducerSelector.selectUserStatus);
+  from = this.router.getCurrentNavigation()?.extras.state?.['from'] as string | undefined;
 
-  constructor(private fb: FormBuilder, private store: Store<CombinedReducers>) {
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<CombinedReducers>,
+    private router: Router,
+  ) {
+    this.handleUserStatus();
   }
 
   ngOnInit() {
     this.initForm();
+  }
+
+  private handleUserStatus() {
+    this.userStatus$.pipe(takeUntilDestroyed()).subscribe((userStatus) => {
+      if (userStatus === UserStatus.Auth) {
+        void this.router.navigate([this.from ? this.from : '/']);
+      }
+    });
   }
 
   private initForm() {

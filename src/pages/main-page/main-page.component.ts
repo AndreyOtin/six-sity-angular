@@ -13,6 +13,7 @@ import { offersReducerSelector } from '../../store/offers/offers.selectors';
 import { offersReducerAction } from '../../store/offers/offers.actions';
 import { sortBy } from '../../utils/sort';
 import { userReducerAction } from '../../store/user/user.actions';
+import { CITIES } from '../../consts/app';
 
 @Component({
   selector: 'app-main-page',
@@ -30,6 +31,7 @@ import { userReducerAction } from '../../store/user/user.actions';
   styleUrl: './main-page.component.scss',
 })
 export class MainPageComponent implements OnInit {
+  cities = CITIES;
   offers$ = this.store.select(offersReducerSelector.selectOffers);
   sort$ = this.store.select(offersReducerSelector.selectSort);
   city$: Observable<string> = this.route.params.pipe(map((param) => param['city'] || 'paris'));
@@ -58,9 +60,7 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(offersReducerAction.getOffers());
-    this.store.dispatch(userReducerAction.checkUser());
-    console.log('main');
+
   }
 
   handleCityClick() {

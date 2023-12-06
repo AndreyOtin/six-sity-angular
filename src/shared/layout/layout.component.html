@@ -1,9 +1,9 @@
-<div class='page page--gray page--main'>
+<div class='page' [class]='className'>
   <header class='header'>
     <div class='container'>
       <div class='header__wrapper'>
         <div class='header__left'>
-          <a class='header__logo-link header__logo-link--active'>
+          <a class='header__logo-link header__logo-link--active' routerLink='/'>
             <img
               class='header__logo'
               ngSrc='assets/img/logo.svg'
@@ -14,8 +14,12 @@
         </div>
         <nav class='header__nav'>
           <ul class='header__nav-list'>
-            <li *ngIf='!(user$ | async)' class='header__nav-item user'>
-              <a [routerLink]='["/login"]' class='header__nav-link header__nav-link--profile'>
+            <li *ngIf='(userStatus$ | async) === 1' class='header__nav-item user'>
+              <a
+                [routerLink]='["/login"]'
+                [state]='{from: route.routerState.snapshot.url}'
+                class='header__nav-link header__nav-link--profile'
+              >
                 <div class='header__avatar-wrapper user__avatar-wrapper'>
                 </div>
                 <span class='header__login'>Sign in</span>
@@ -23,14 +27,15 @@
             </li>
             <li *ngIf='(user$ | async)' class='header__nav-item user'>
               <a [routerLink]='["/favorites"]' class='header__nav-link header__nav-link--profile' href='#'>
-                <div class='header__avatar-wrapper user__avatar-wrapper'>
+                <div class='header__avatar-wrapper user__avatar-wrapper avatar-wrapper'>
+                  <img [ngSrc]='(user$ | async)?.avatarUrl || ""' fill='' alt='avatar'>
                 </div>
-                <span class='header__user-name user__name'>"Oliver.conner"&#64;"gmail.com"</span>
-                <span class='header__favorite-count'>3</span>
+                <span class='header__user-name user__name'>{{ (user$ | async)?.email}}</span>
+                <span class='header__favorite-count'>{{ (favorites$ | async)?.length }}</span>
               </a>
             </li>
             <li *ngIf='(user$ | async)' class='header__nav-item'>
-              <a class='header__nav-link' href='#'>
+              <a class='header__nav-link' (click)='handleLogout()'>
                 <span class='header__signout'>Sign out</span>
               </a>
             </li>

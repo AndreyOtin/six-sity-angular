@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { CombinedReducers } from '../../store';
-import { userReducerSelectors } from '../../store/user/user.selectors';
-import { RouterLink } from '@angular/router';
+import { userReducerSelector } from '../../store/user/user.selectors';
+import { Router, RouterLink } from '@angular/router';
+import { userReducerAction } from '../../store/user/user.actions';
 
 @Component({
   selector: 'app-layout',
@@ -13,11 +14,18 @@ import { RouterLink } from '@angular/router';
   styleUrl: './layout.component.scss',
 })
 export class LayoutComponent implements OnInit {
-  user$ = this.store.select(userReducerSelectors.selectUser);
+  @Input() className: string = '';
+  user$ = this.store.select(userReducerSelector.selectUser);
+  userStatus$ = this.store.select(userReducerSelector.selectUserStatus);
+  favorites$ = this.store.select(userReducerSelector.selectUserFavorites);
 
-  constructor(private store: Store<CombinedReducers>) {
+  constructor(private store: Store<CombinedReducers>, public route: Router) {
   }
 
   ngOnInit() {
+  }
+
+  handleLogout() {
+    this.store.dispatch(userReducerAction.logoutUser());
   }
 }

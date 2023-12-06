@@ -1,4 +1,4 @@
-<app-layout>
+<app-layout className='page--gray page--main test bc'>
   <main class="page__main page__main--index">
     <h1 class="visually-hidden">Cities</h1>
     <div class="tabs">
@@ -6,7 +6,7 @@
 
         <ul class="locations__list tabs__list">
           <li class="locations__item"
-              *ngFor="let city of ['paris', 'cologne', 'brussels', 'amsterdam', 'hamburg', 'dusseldorf']">
+              *ngFor="let city of cities">
             <a
               (click)='handleCityClick()'
               class="locations__item-link tabs__item"
@@ -25,12 +25,12 @@
       <div class="cities__places-container container">
         <section class="cities__places places">
           <h2 class="visually-hidden">Places</h2>
-          <b class="places__found">{{(offersByCity$  | async)?.length}} places to stay
+          <b class="places__found">{{(offersByCity$ | async)?.length}} places to stay
             in {{city$ | async | titlecase}}</b>
           <app-sort-menu/>
           <div class="cities__places-list places__list tabs__content"
           >
-            <app-offer-card *ngFor="let offer of  offersByCity$  | async; trackBy: trackOffers" [offer]="offer"/>
+            <app-offer-card *ngFor="let offer of  offersByCity$ | async; trackBy: trackOffers" [offer]="offer" />
           </div>
         </section>
         <div class="cities__right-section">

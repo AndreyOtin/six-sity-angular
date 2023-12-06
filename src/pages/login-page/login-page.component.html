@@ -32,7 +32,7 @@
             <label class='visually-hidden'>Password</label>
             <input
               class='login__input form__input'
-              [class.warning]='form.controls.password.invalid  && form.controls.password.touched'
+              [class.warning]='form.controls.password.invalid && form.controls.password.touched'
               type='password'
               placeholder='Password'
               formControlName='password'>
@@ -44,11 +44,6 @@
         </form>
       </section>
       <section class='locations locations--login locations--current'>
-        <div class='locations__item'>
-          <a class='locations__item-link' href='#'>
-            <span>Amsterdam</span>
-          </a>
-        </div>
       </section>
     </div>
   </main>
