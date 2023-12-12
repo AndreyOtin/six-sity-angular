@@ -3,6 +3,8 @@ import { MainPageComponent } from '../pages/main-page/main-page.component';
 import { LoginPageComponent } from '../pages/login-page/login-page.component';
 import { loginPageGuard } from '../pages/login-page/guard/login-page.guard';
 import { OfferPageComponent } from '../pages/offer-page/offer-page.component';
+import { favoritePageGuard } from '../pages/favorite-page/guards/favorite-page.guard';
+import { FavoritePageComponent } from '../pages/favorite-page/favorite-page.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +22,12 @@ export const routes: Routes = [
     component: LoginPageComponent,
     title: '6 городов',
     canActivate: [loginPageGuard],
+  },
+  {
+    path: 'favorites',
+    component: FavoritePageComponent,
+    title: '6 городов',
+    canActivate: [favoritePageGuard],
   },
   {
     path: 'offer/:id',

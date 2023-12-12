@@ -1,0 +1,103 @@
+<app-layout>
+  <main class='page__main page__main--property' *ngIf='offer$ | async as offer'>
+    <section class='property'>
+      <div class='property__gallery-container container'>
+        <div class='property__gallery'>
+          <div class='property__image-wrapper image-wrapper' *ngFor='let img of offer.images.slice(0, 6)'>
+            <img class='property__image' [ngSrc]='img' alt='Photo studio' width='260' height='200'>
+          </div>
+        </div>
+      </div>
+      <div class='property__container container'>
+        <div class='property__wrapper'>
+          <div class='property__mark' *ngIf='offer.isPremium '>
+            <span>Premium</span>
+          </div>
+          <div class='property__name-wrapper'>
+            <h1 class='property__name'>
+              {{(offer$ | async)?.title}}
+            </h1>
+            <button
+              *ngIf='user$| async'
+              class='property__bookmark-button button'
+              [class.property__bookmark-button--active]='offer.isFavorite'
+              type='button'
+              (click)='handleFavoriteClick(offer.id, offer.isFavorite)'
+            >
+              <svg class='property__bookmark-icon' width='31' height='33'>
+                <use xlink:href='#icon-bookmark'></use>
+              </svg>
+              <span class='visually-hidden'>To bookmarks</span>
+            </button>
+          </div>
+          <div class='property__rating rating'>
+            <div class='property__stars rating__stars'>
+              <span [ngStyle]='getRatingStyle(offer.rating)'></span>
+              <span class='visually-hidden'>Rating</span>
+            </div>
+            <span class='property__rating-value rating__value'>{{offer.rating}}</span>
+          </div>
+          <ul class='property__features'>
+            <li class='property__feature property__feature--entire'>
+              {{(offer$ | async)?.type | titlecase}}
+            </li>
+            <li class='property__feature property__feature--bedrooms'>
+              {{(offer$ | async)?.bedrooms}} {{offer.bedrooms | i18nPlural: roomsToNameMap}}
+            </li>
+            <li class='property__feature property__feature--adults'>
+              Max {{offer.maxAdults}} {{offer.maxAdults | i18nPlural: adultsToNameMap}}
+            </li>
+          </ul>
+          <div class='property__price'>
+            <b class='property__price-value'>&euro; {{offer.price}}</b>
+            <span class='property__price-text'>&nbsp;night</span>
+          </div>
+          <div class='property__inside'>
+            <h2 class='property__inside-title'>What&apos;s inside</h2>
+            <ul class='property__inside-list'>
+              <li
+                *ngFor='let good of offer.goods'
+                class='property__inside-item'
+              >
+                {{good}}
+              </li>
+            </ul>
+          </div>
+          <div class='property__host'>
+            <h2 class='property__host-title'>Meet the host</h2>
+            <div class='property__host-user user'>
+              <div class='property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper'>
+                <img
+                  class='property__avatar user__avatar'
+                  [ngSrc]='"assets/" + offer.host.avatarUrl'
+                  width='74'
+                  height='74'
+                  alt='Host avatar'>
+              </div>
+              <span class='property__user-name'
+              >
+               {{(offer$ | async)?.host?.name}}
+              </span>
+              <span
+                *ngIf='offer.host.isPro'
+                class='property__user-status'
+              >
+                Pro
+              </span>
+            </div>
+            <div class='property__description'>
+              <p class='property__text'>
+                {{offer.description}}
+              </p>
+            </div>
+          </div>
+          <section class='property__reviews reviews'>
+            <app-comments />
+            <app-comment-form *ngIf='user$ | async' [id]='offer.id' />
+          </section>
+        </div>
+      </div>
+      <section class='property__map map'></section>
+    </section>
+  </main>
+</app-layout>

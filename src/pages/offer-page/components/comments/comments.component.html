@@ -1,0 +1,28 @@
+<h2 class='reviews__title'>Reviews &middot; <span class='reviews__amount'>{{(comments$ | async)?.length}}</span></h2>
+<ul class='reviews__list'>
+  <li class='reviews__item' *ngFor='let comment of comments$ | async'>
+    <div class='reviews__user user'>
+      <div class='reviews__avatar-wrapper user__avatar-wrapper'>
+        <img class='reviews__avatar user__avatar' [ngSrc]='comment.user.avatarUrl' width='54' height='54'
+             alt='Reviews avatar'>
+      </div>
+      <span
+        class='reviews__user-name'
+      >
+        {{comment.user.name}}
+      </span>
+    </div>
+    <div class='reviews__info'>
+      <div class='reviews__rating rating'>
+        <div class='reviews__stars rating__stars'>
+          <span [ngStyle]='getRatingStyle(comment.rating)'></span>
+          <span class='visually-hidden'>Rating</span>
+        </div>
+      </div>
+      <p class='reviews__text'>
+        {{comment.comment}}
+      </p>
+      <time class='reviews__time' datetime='2019-04-24'>{{comment.date | date: 'dd MMMM'}}</time>
+    </div>
+  </li>
+</ul>

@@ -5,6 +5,7 @@ import { offersReducerAction } from '../store/offers/offers.actions';
 import { userReducerAction } from '../store/user/user.actions';
 import { Store } from '@ngrx/store';
 import { CombinedReducers } from '../store';
+import { RouteService } from '../services/route.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,10 @@ import { CombinedReducers } from '../store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  constructor(private store: Store<CombinedReducers>) {
+  constructor(
+    private store: Store<CombinedReducers>,
+  ) {
+
   }
 
   ngOnInit() {

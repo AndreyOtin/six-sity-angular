@@ -16,3 +16,8 @@ export enum UserStatus {
   NoAuth,
   Unknown
 }
+
+export enum FormStatus {
+  Unknown,
+  Success
+}

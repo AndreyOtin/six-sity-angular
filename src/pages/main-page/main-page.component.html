@@ -1,40 +1,40 @@
 <app-layout className='page--gray page--main test bc'>
-  <main class="page__main page__main--index">
-    <h1 class="visually-hidden">Cities</h1>
-    <div class="tabs">
-      <section class="locations container">
+  <main *ngIf='offersByCity$ | async as offersByCity' class='page__main page__main--index'>
+    <h1 class='visually-hidden'>Cities</h1>
+    <div class='tabs'>
+      <section class='locations container'>
 
-        <ul class="locations__list tabs__list">
-          <li class="locations__item"
-              *ngFor="let city of cities">
+        <ul class='locations__list tabs__list'>
+          <li class='locations__item'
+              *ngFor='let city of cities'>
             <a
               (click)='handleCityClick()'
-              class="locations__item-link tabs__item"
+              class='locations__item-link tabs__item'
               [routerLink]="['/offers', city]"
-              routerLinkActive="tabs__item tabs__item--active"
-              [routerLinkActiveOptions]="{exact: true}"
+              routerLinkActive='tabs__item tabs__item--active'
+              [routerLinkActiveOptions]='{exact: true}'
             >
-              <span>{{city | titlecase}}</span>
+              <span>{{ city | titlecase }}</span>
             </a>
           </li>
 
         </ul>
       </section>
     </div>
-    <div class="cities">
-      <div class="cities__places-container container">
-        <section class="cities__places places">
-          <h2 class="visually-hidden">Places</h2>
-          <b class="places__found">{{(offersByCity$ | async)?.length}} places to stay
-            in {{city$ | async | titlecase}}</b>
-          <app-sort-menu/>
-          <div class="cities__places-list places__list tabs__content"
+    <div class='cities'>
+      <div class='cities__places-container container'>
+        <section class='cities__places places'>
+          <h2 class='visually-hidden'>Places</h2>
+          <b class='places__found'>{{ offersByCity.length }} places to stay
+            in {{ city$ | async | titlecase }}</b>
+          <app-sort-menu />
+          <div class='cities__places-list places__list tabs__content'
           >
-            <app-offer-card *ngFor="let offer of  offersByCity$ | async; trackBy: trackOffers" [offer]="offer" />
+            <app-offer-card *ngFor='let offer of  offersByCity; trackBy: trackOffers' [offer]='offer' />
           </div>
         </section>
-        <div class="cities__right-section">
-          <section class="cities__map map"></section>
+        <div class='cities__right-section'>
+          <app-map class='map' />
         </div>
       </div>
     </div>

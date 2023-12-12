@@ -2,11 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { Comment, Offer } from '../../types/api';
 import { SORT_TYPE } from '../../consts/app';
 import { offersReducerAction } from './offers.actions';
-
-export enum FormStatus {
-  Unknown,
-  Success
-}
+import { FormStatus } from '../../consts/enums';
 
 export interface OffersReducer {
   sort: typeof SORT_TYPE[number];

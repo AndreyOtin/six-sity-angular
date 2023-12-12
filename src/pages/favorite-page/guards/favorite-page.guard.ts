@@ -5,13 +5,13 @@ import { CombinedReducers } from '../../../store';
 import { userReducerSelector } from '../../../store/user/user.selectors';
 import { map } from 'rxjs';
 
-export const loginPageGuard:CanActivateFn = () => {
-  const router = inject(Router);
+export const favoritePageGuard: CanActivateFn = () => {
   const store = inject(Store<CombinedReducers>);
+  const router = inject(Router);
 
   return store.select(userReducerSelector.selectUser).pipe(map((user) => {
-    if (user) {
-      return router.createUrlTree(['/offers']);
+    if (!user) {
+      return router.createUrlTree(['/login']);
     }
 
     return true;

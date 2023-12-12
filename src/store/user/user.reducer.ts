@@ -10,7 +10,8 @@ export interface UserReducer {
   authStatus: UserStatus;
   isLoading: boolean,
   isFavoritesLoading: boolean,
-  error: string | null
+  error: string | null,
+  isUpdateSuccess: boolean;
 }
 
 const initialState: UserReducer = {
@@ -19,6 +20,7 @@ const initialState: UserReducer = {
   authStatus: UserStatus.Unknown,
   isLoading: false,
   isFavoritesLoading: false,
+  isUpdateSuccess: false,
   error: null,
 };
 
@@ -40,7 +42,7 @@ export const userReducer = createReducer(
     return { ...state, isFavoritesLoading: false, error: action.payload };
   }),
   on(userReducerAction.updateFavorites, (state) => {
-    return { ...state, isFavoritesLoading: true, error: null };
+    return { ...state, isFavoritesLoading: true, error: null, isUpdateSuccess: false };
   }),
   on(userReducerAction.updateFavoritesSuccess, (state, action) => {
     const index = state.favorites.findIndex(f => f.id === action.payload.id);
@@ -52,7 +54,7 @@ export const userReducer = createReducer(
       favorites.splice(index, 1);
     }
 
-    return { ...state, favorites: favorites, isFavoritesLoading: false };
+    return { ...state, favorites: favorites, isFavoritesLoading: false, isUpdateSuccess: true };
   }),
   on(userReducerAction.updateFavoritesFailure, (state, action) => {
     return { ...state, isFavoritesLoading: false, error: action.payload };

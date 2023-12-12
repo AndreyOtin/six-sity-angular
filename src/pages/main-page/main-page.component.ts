@@ -6,14 +6,14 @@ import { CombinedReducers } from '../../store';
 import { OfferCardComponent } from '../../shared/offer-card/offer-card.component';
 import { Offer } from '../../types/api';
 import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
-import { map, mergeAll, Observable } from 'rxjs';
+import { map, mergeAll, Observable, switchAll } from 'rxjs';
 import { LayoutComponent } from '../../shared/layout/layout.component';
 import { SortMenuComponent } from './componets/sort-menu/sort-menu.component';
 import { offersReducerSelector } from '../../store/offers/offers.selectors';
 import { offersReducerAction } from '../../store/offers/offers.actions';
 import { sortBy } from '../../utils/sort';
-import { userReducerAction } from '../../store/user/user.actions';
 import { CITIES } from '../../consts/app';
+import { MapComponent } from '../../shared/map/map.component';
 
 @Component({
   selector: 'app-main-page',
@@ -26,6 +26,7 @@ import { CITIES } from '../../consts/app';
     RouterLinkActive,
     LayoutComponent,
     SortMenuComponent,
+    MapComponent,
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',

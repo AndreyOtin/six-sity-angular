@@ -17,7 +17,7 @@
             <li *ngIf='(userStatus$ | async) === 1' class='header__nav-item user'>
               <a
                 [routerLink]='["/login"]'
-                [state]='{from: route.routerState.snapshot.url}'
+                [state]='{from: router.routerState.snapshot.url}'
                 class='header__nav-link header__nav-link--profile'
               >
                 <div class='header__avatar-wrapper user__avatar-wrapper'>

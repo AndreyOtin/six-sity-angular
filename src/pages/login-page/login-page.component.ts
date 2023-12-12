@@ -9,6 +9,7 @@ import { NewUser } from '../../types/api';
 import { userReducerSelector } from '../../store/user/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserStatus } from '../../consts/enums';
+import { RouteService } from '../../services/route.service';
 
 @Component({
   selector: 'app-login-page',
@@ -29,18 +30,20 @@ export class LoginPageComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store<CombinedReducers>,
     private router: Router,
+    private routeService: RouteService
   ) {
-    this.handleUserStatus();
+    this.handleUserStatusSubscription();
   }
 
   ngOnInit() {
     this.initForm();
   }
 
-  private handleUserStatus() {
+  private handleUserStatusSubscription() {
     this.userStatus$.pipe(takeUntilDestroyed()).subscribe((userStatus) => {
       if (userStatus === UserStatus.Auth) {
-        void this.router.navigate([this.from ? this.from : '/']);
+        void this.router.navigate([this.routeService.from || this.from || '/']);
+        this.routeService.from = ''
       }
     });
   }
